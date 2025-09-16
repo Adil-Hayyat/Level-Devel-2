@@ -112,7 +112,11 @@
         nextBtn.style.display = "inline-block";
       } else if (level === 2 && score >= 2) {
         clearInterval(gameInterval);
-        statusDisplay.textContent = "🏆 🎉 Level 1 Complete!";
+        statusDisplay.textContent = "🎉 Level 2 Complete!";
+        restartBtn.style.display = "inline-block";
+      } else if (level === 3 && score >= 1) {
+        clearInterval(gameInterval);
+        statusDisplay.textContent = "🏆 🎉 Level 3 Complete!";
         restartBtn.style.display = "inline-block";
       }
     };
@@ -122,10 +126,20 @@
       levelDisplay.textContent = level;
       score = 0;
       scoreDisplay.textContent = score;
-      statusDisplay.textContent = "Level 2: Faster target!";
+      statusDisplay.textContent = "Level 2";
       nextBtn.style.display = "none";
-      moveTarget(900); // faster for level 2
+      moveTarget(1800); // faster for level 2
     }
+
+    function nextLevel() {
+      level = 3;
+      levelDisplay.textContent = level;
+      score = 0;
+      scoreDisplay.textContent = score;
+      statusDisplay.textContent = "Level 3";
+      nextBtn.style.display = "none";
+      moveTarget(1600); // faster for level 3
+    }    
 
     function restartGame() {
       startGame();
