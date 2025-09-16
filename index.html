@@ -31,7 +31,7 @@
       overflow: hidden;
     }
 
-     #target {
+    #target {
       position: absolute;
       width: 50px;
       height: 50px;
@@ -39,7 +39,6 @@
       background-size: contain;
       cursor: pointer;
     }
-
 
     .btn {
       margin: 10px;
@@ -82,6 +81,9 @@
     const nextBtn = document.querySelector(".btn-next");
     const restartBtn = document.querySelector(".btn-restart");
 
+    // Base speed for level 1
+    let baseSpeed = 2000; 
+
     function moveTarget(speed) {
       clearInterval(gameInterval);
       gameInterval = setInterval(() => {
@@ -95,40 +97,46 @@
     function startGame() {
       score = 0;
       level = 1;
+      baseSpeed = 2000; // reset speed
       scoreDisplay.textContent = score;
       levelDisplay.textContent = level;
       statusDisplay.textContent = "Level 1: Catch the target!";
       nextBtn.style.display = "none";
       restartBtn.style.display = "none";
-      moveTarget(2000); // slow for level 1
+      moveTarget(baseSpeed);
     }
 
     target.onclick = () => {
       score++;
       scoreDisplay.textContent = score;
-      if (level === 1 && score >= 1) {
+      
+      // Har level par 3 points required
+      if (score >= 3) {
         clearInterval(gameInterval);
-        statusDisplay.textContent = "🎉 Level 1 Complete!";
-        nextBtn.style.display = "inline-block";
-      } else if (level === 2 && score >= 2) {
-        clearInterval(gameInterval);
-        statusDisplay.textContent = "🏆 🎉 Level 2 Complete!";
-        restartBtn.style.display = "inline-block";
-      } else if (level === 3 && score >= 1) {
-        clearInterval(gameInterval);
-        statusDisplay.textContent = "🏆 🎉 Level 2 Complete!";
-        restartBtn.style.display = "inline-block";
+
+        if (level < 10) {
+          statusDisplay.textContent = `🎉 Level ${level} Complete!`;
+          nextBtn.style.display = "inline-block";
+        } else {
+          statusDisplay.textContent = "🏆 🎉 Game Completed!";
+          restartBtn.style.display = "inline-block";
+        }
       }
     };
 
     function nextLevel() {
-      level = 2;
-      levelDisplay.textContent = level;
+      level++;
       score = 0;
       scoreDisplay.textContent = score;
-      statusDisplay.textContent = "Level 2: Faster target!";
+      levelDisplay.textContent = level;
       nextBtn.style.display = "none";
-      moveTarget(1800); // faster for level 2
+      restartBtn.style.display = "none";
+
+      baseSpeed = baseSpeed - 200; // har level par speed tez
+      if (baseSpeed < 400) baseSpeed = 400; // max limit
+
+      statusDisplay.textContent = `Level ${level}: Faster target!`;
+      moveTarget(baseSpeed);
     }
 
     function restartGame() {
