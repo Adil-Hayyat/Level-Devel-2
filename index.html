@@ -16,15 +16,16 @@
     header {
       background: #330D01;
       padding: 15px;
-      font-size: 24px;
+      font-size: clamp(18px, 4vw, 24px);
       font-weight: bold;
     }
 
     #gameArea {
       position: relative;
       margin: 20px auto;
-      width: 600px;
-      height: 400px;
+      width: 90%;
+      max-width: 600px;
+      aspect-ratio: 3 / 2; /* auto height */
       background: #feb854;
       border: 3px solid #fff;
       border-radius: 10px;
@@ -33,20 +34,25 @@
 
     #target {
       position: absolute;
-      width: 50px;
-      height: 50px;
+      width: 10%;   /* responsive size */
+      max-width: 60px;
+      aspect-ratio: 1/1;
       background: url('character.png') no-repeat center;
       background-size: contain;
       cursor: pointer;
     }
 
+    h2, p {
+      font-size: clamp(14px, 3vw, 20px);
+    }
+
     .btn {
-      margin: 10px;
-      padding: 10px 20px;
+      margin: 8px;
+      padding: 10px 16px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: clamp(12px, 3vw, 16px);
       font-weight: bold;
     }
 
@@ -80,6 +86,7 @@
     const statusDisplay = document.getElementById("status");
     const nextBtn = document.querySelector(".btn-next");
     const restartBtn = document.querySelector(".btn-restart");
+    const gameArea = document.getElementById("gameArea");
 
     // Base speed for level 1
     let baseSpeed = 2000; 
@@ -87,8 +94,14 @@
     function moveTarget(speed) {
       clearInterval(gameInterval);
       gameInterval = setInterval(() => {
-        let x = Math.random() * (550);
-        let y = Math.random() * (350);
+        let areaWidth = gameArea.clientWidth;
+        let areaHeight = gameArea.clientHeight;
+        let targetWidth = target.clientWidth;
+        let targetHeight = target.clientHeight;
+
+        let x = Math.random() * (areaWidth - targetWidth);
+        let y = Math.random() * (areaHeight - targetHeight);
+
         target.style.left = x + "px";
         target.style.top = y + "px";
       }, speed);
@@ -133,7 +146,7 @@
       restartBtn.style.display = "none";
 
       baseSpeed = baseSpeed - 200; // har level par speed tez
-      if (baseSpeed < 600) baseSpeed = 600; // max limit
+      if (baseSpeed < 400) baseSpeed = 400; // max limit
 
       statusDisplay.textContent = `Level ${level}: Faster target!`;
       moveTarget(baseSpeed);
