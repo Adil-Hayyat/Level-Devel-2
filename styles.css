@@ -1,0 +1,83 @@
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --accent:#e14a3c;
+  --muted:#9aa4b2;
+  --glass: rgba(255,255,255,0.03);
+  --radius:14px;
+  --gap:14px;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(180deg, #071023 0%, #0c1220 100%);
+  color:#e6eef6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.container{
+  width:100%;
+  max-width:920px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:20px;
+  padding:22px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+header {display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px}
+header h1{margin:0; font-size:20px; letter-spacing:0.6px}
+.meta {color:var(--muted); font-size:13px}
+
+#game{display:grid; grid-template-columns: 1fr 320px; gap:16px; align-items:start}
+@media (max-width:880px){ #game{grid-template-columns:1fr} }
+
+.hud{display:flex; flex-direction:column; gap:12px}
+.player-card, .enemy-card{
+  background:var(--card);
+  padding:12px;
+  border-radius:12px;
+  box-shadow: inset 0 -2px 6px rgba(0,0,0,0.4);
+  border:1px solid rgba(255,255,255,0.02);
+}
+.player-card h2, .enemy-card h2{margin:0 0 8px 0}
+.stat{font-size:14px; color:var(--muted); margin:4px 0}
+
+.log{
+  background:var(--glass);
+  padding:12px;
+  border-radius:12px;
+  min-height:200px;
+  max-height:320px;
+  overflow:auto;
+  border:1px solid rgba(255,255,255,0.02);
+  margin-top:6px;
+}
+.log-line{font-size:13px; margin-bottom:8px; color:#d9e6f5}
+
+.controls{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding-left:10px;
+}
+#name-input{padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit}
+.buttons{display:flex; flex-wrap:wrap; gap:8px}
+button{
+  padding:10px 14px; border-radius:10px; border:0; cursor:pointer;
+  background:rgba(255,255,255,0.03); color:inherit;
+  box-shadow: 0 4px 10px rgba(2,6,23,0.4);
+}
+button.primary{background:linear-gradient(90deg,var(--accent), #ff7a62); color:white; font-weight:600;}
+button.ghost{background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted)}
+button:disabled{opacity:0.45; cursor:not-allowed}
+
+.footer{grid-column:1/-1; margin-top:10px; color:var(--muted); text-align:center; font-size:13px}
