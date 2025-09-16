@@ -146,7 +146,7 @@
       restartBtn.style.display = "none";
 
       baseSpeed = baseSpeed - 200; // har level par speed tez
-      if (baseSpeed < 400) baseSpeed = 400; // max limit
+      if (baseSpeed < 200) baseSpeed = 200; // max limit
 
       statusDisplay.textContent = `Level ${level}: Faster target!`;
       moveTarget(baseSpeed);
