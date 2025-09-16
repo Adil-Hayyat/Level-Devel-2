@@ -99,19 +99,19 @@
       statusDisplay.textContent = "Level 1: Catch the target!";
       nextBtn.style.display = "none";
       restartBtn.style.display = "none";
-      moveTarget(1000); // slow for level 1
+      moveTarget(2000); // slow for level 1
     }
 
     target.onclick = () => {
       score++;
       scoreDisplay.textContent = score;
-      if (level === 1 && score >= 5) {
+      if (level === 1 && score >= 1) {
         clearInterval(gameInterval);
         statusDisplay.textContent = "🎉 Level 1 Complete!";
         nextBtn.style.display = "inline-block";
-      } else if (level === 2 && score >= 1) {
+      } else if (level === 2 && score >= 2) {
         clearInterval(gameInterval);
-        statusDisplay.textContent = "🏆 Congratulations! You won!";
+        statusDisplay.textContent = "🏆 🎉 Level 1 Complete!";
         restartBtn.style.display = "inline-block";
       }
     };
