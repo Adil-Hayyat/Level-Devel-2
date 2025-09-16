@@ -1,56 +1,134 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dungeon Runner — Web</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2 Level Target Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f5132;
+      color: #fff;
+      text-align: center;
+    }
+
+    header {
+      background: #198754;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    #gameArea {
+      position: relative;
+      margin: 20px auto;
+      width: 600px;
+      height: 400px;
+      background: #14532d;
+      border: 3px solid #fff;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    #target {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: red;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .btn {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .btn-start { background: #ffc107; }
+    .btn-restart { background: #dc3545; color: #fff; }
+    .btn-next { background: #0d6efd; color: #fff; }
+  </style>
 </head>
 <body>
-  <main class="container">
-    <header>
-      <h1>Dungeon Runner</h1>
-      <div class="meta">2 Levels • Click Attack • Responsive</div>
-    </header>
+  <header>🎯 2 Level Target Game 🎯</header>
+  
+  <h2 id="status">Click Start to Play!</h2>
+  <p>Score: <span id="score">0</span></p>
+  <p>Level: <span id="level">1</span></p>
 
-    <section id="game">
-      <div class="hud">
-        <div class="player-card">
-          <h2 id="player-name">Hero</h2>
-          <div class="stat">HP: <span id="player-hp">0</span>/<span id="player-maxhp">0</span></div>
-          <div class="stat">Attack: <span id="player-attack">0</span></div>
-          <div class="stat">Potions: <span id="player-potions">0</span></div>
-          <div class="stat">Level: <span id="player-level">1</span></div>
-        </div>
+  <div id="gameArea">
+    <div id="target"></div>
+  </div>
 
-        <div class="enemy-card">
-          <h2 id="enemy-name">—</h2>
-          <div class="stat">HP: <span id="enemy-hp">0</span></div>
-          <div class="stat">Attack: <span id="enemy-attack">0</span></div>
-        </div>
-      </div>
+  <button class="btn btn-start" onclick="startGame()">Start</button>
+  <button class="btn btn-next" onclick="nextLevel()" style="display:none;">Next Level</button>
+  <button class="btn btn-restart" onclick="restartGame()" style="display:none;">Restart</button>
 
-      <div class="log" id="log">
-        <div class="log-line">Welcome to Dungeon Runner — click Start to play!</div>
-      </div>
+  <script>
+    let score = 0;
+    let level = 1;
+    let gameInterval;
+    const target = document.getElementById("target");
+    const scoreDisplay = document.getElementById("score");
+    const levelDisplay = document.getElementById("level");
+    const statusDisplay = document.getElementById("status");
+    const nextBtn = document.querySelector(".btn-next");
+    const restartBtn = document.querySelector(".btn-restart");
 
-      <div class="controls">
-        <input id="name-input" type="text" placeholder="Enter hero name (optional)" maxlength="20">
-        <div class="buttons">
-          <button id="start-btn" class="primary">Start / Restart</button>
-          <button id="attack-btn" disabled>Attack</button>
-          <button id="potion-btn" disabled>Use Potion</button>
-          <button id="flee-btn" disabled>Try to Flee</button>
-          <button id="next-level-btn" class="ghost" disabled>Next Level</button>
-        </div>
-      </div>
+    function moveTarget(speed) {
+      clearInterval(gameInterval);
+      gameInterval = setInterval(() => {
+        let x = Math.random() * (550);
+        let y = Math.random() * (350);
+        target.style.left = x + "px";
+        target.style.top = y + "px";
+      }, speed);
+    }
 
-      <div class="footer">
-        <small>Made for GitHub Pages — open <code>index.html</code> to play.</small>
-      </div>
-    </section>
-  </main>
+    function startGame() {
+      score = 0;
+      level = 1;
+      scoreDisplay.textContent = score;
+      levelDisplay.textContent = level;
+      statusDisplay.textContent = "Level 1: Catch the target!";
+      nextBtn.style.display = "none";
+      restartBtn.style.display = "none";
+      moveTarget(1000); // slow for level 1
+    }
 
-  <script src="script.js"></script>
+    target.onclick = () => {
+      score++;
+      scoreDisplay.textContent = score;
+      if (level === 1 && score >= 5) {
+        clearInterval(gameInterval);
+        statusDisplay.textContent = "🎉 Level 1 Complete!";
+        nextBtn.style.display = "inline-block";
+      } else if (level === 2 && score >= 10) {
+        clearInterval(gameInterval);
+        statusDisplay.textContent = "🏆 Congratulations! You won!";
+        restartBtn.style.display = "inline-block";
+      }
+    };
+
+    function nextLevel() {
+      level = 2;
+      levelDisplay.textContent = level;
+      score = 0;
+      scoreDisplay.textContent = score;
+      statusDisplay.textContent = "Level 2: Faster target!";
+      nextBtn.style.display = "none";
+      moveTarget(500); // faster for level 2
+    }
+
+    function restartGame() {
+      startGame();
+    }
+  </script>
 </body>
 </html>
